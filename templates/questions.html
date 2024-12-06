@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Questions
+{% endblock %}
+
+{% block main %}
+    <h1>{{ question.question_text }}</h1>
+    <form action="" method="post">
+        {% for answer in question.answers %}
+            <input type="radio" name="answer_id" value="{{ answer.id }}">
+            <label>{{ answer.answer_text }}</label><br>
+        {% endfor %}
+        <button type="submit">Verzend Antwoord</button>
+    </form>
+{% endblock %}
