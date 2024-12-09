@@ -12,6 +12,9 @@ class User(db.Model):
     # relatie tussen user en ingevulde antwoordn
     user_answers = db.relationship("UserAnswer", back_populates="user") 
 
+    # relatie tussen user en profiel
+    profile = db.relationship("Profile", back_populates="user")
+
 class UserAnswer(db.Model):
     """Slaat se antwoorden van de User op"""
     __tablename__ = "user_answers"
@@ -40,7 +43,7 @@ class Question(db.Model):
     question_text = db.Column(db.String, nullable=False)
 
     # met relaties kunnen we via Question naar de bijbehorende (user)answers
-    answers = db.relationship('Answer', back_populates='question')
+    answers = db.relationship("Answer", back_populates="question")
     user_answers = db.relationship("UserAnswer", back_populates="question") 
 
 class Answer(db.Model):
@@ -51,3 +54,11 @@ class Answer(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), nullable=False)
     question = db.relationship("Question", back_populates="answers")
     user_answers = db.relationship("UserAnswer", back_populates="answer")
+
+class Profile(db.Model):
+    __tablename__ = "profiles"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    bio = db.Column(db.String, nullable=True)
+    user = db.relationship("User", back_populates="profile")
+    

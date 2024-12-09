@@ -162,13 +162,12 @@ def question(question_id):
         if next_question:
             return redirect(f"/question/{next_question.id}")
         else:
-            return redirect("/submit_answers")
-
+            return redirect("/matches")
     return render_template("questions.html", question=question)
 
-@app.route("/submit_answers", methods=["GET"])
+@app.route("/matches", methods=["GET"])
 @login_required
-def submit_answers():
+def matches():
     """Verwerk de antwoorden van de gebruiker en geef de uitslag weer."""
     user_id = session["user_id"]
 
@@ -182,6 +181,10 @@ def submit_answers():
 
     # totale aantal questions is lengte van de lijst
     total_questions = len(user_answer_list)
+
+    if total_questions == 0:
+        matches = []
+        return render_template("matches.html", matches=matches)
 
     # we maken een lege lijst waar we later de matches aan toevoegen
     matches = []
@@ -222,7 +225,48 @@ def submit_answers():
     """Voeg hier nog extra restricties toe voor bijv nul macthes, of meerder met zelfde percentage!!1"""
 
     # De top matches worden worden doorgegeven aan template. 
-    return render_template("submit_answers.html", matches=top_matches)
+    return render_template("matches.html", matches=top_matches)
+
+@app.route("/profile/me", methods=["GET", "POST"])
+@login_required
+def my_profile():
+    """eigen profiel bekijken/aanpassen"""
+    # we halen het profiel op
+    profile = Profile.query.filter_by(user_id=session["user_id"]).first()
+
+    if request.method == "POST":
+
+        # we vragen om de bio
+        bio = request.form.get("bio")
+
+        # als er al een profiel is, vervangen we de bio
+        if profile:
+            profile.bio = bio
+
+        # anders voegen we de bio toe aan het profil/we creeren dus het profieel
+        else:
+            profile = Profile(user_id=session["user_id"], bio=bio)
+            db.session.add(profile)
+
+        db.session.commit()
+
+        return redirect("/profile/me")
+
+    return render_template("my_profile.html", profile=profile)
+
+@app.route("/profile/<int:user_id>", methods=["GET"])
+@login_required
+def view_profile(user_id):
+    """profielen van anderen bekijken"""
+
+    # we halen het profiel op
+    profile = Profile.query.filter_by(user_id=user_id).first()
+    if not profile:
+        return render_template("error.html", message="Profiel niet gevonden.")
+    
+    # we geven het profiel van de user weer
+    user = User.query.get(user_id)
+    return render_template("profile.html", profile=profile, username=user.username)
 
 if __name__ == "__main__":
     app.run()

@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My profile
+{% endblock %}
+
+{% block main %}
+    <h1>Profiel</h1>
+    <h2>Welkom bij je profiel! Jouw profiel is de de plek waar mensen jou leren kennen. Vertel hier iets bijzonders over jezelf:
+        wie ben jij, en waarom zouden anderen jou moeten leren kennen? Deel iets leuks dat je toekomstige muziekpartners 
+        nieuwsgierig maakt!
+    </h2>
+    <form action="/profile/me" method="post">
+        <div class="mb-3">
+            <label for="bio">Biografie:</label>
+            <textarea id="bio" name="bio" class="form-control" rows="4">{{ profile.bio }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Bijwerken</button>
+    </form>
+
+    {% if profile %}
+        <h2>Huidige Biografie:</h2>
+        <p>{{ profile.bio }}</p>
+    {% else %}
+        <p>Je hebt nog geen biografie ingesteld.</p>
+    {% endif %}
+{% endblock %}
