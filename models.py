@@ -15,6 +15,8 @@ class User(db.Model):
     # relatie tussen user en profiel
     profile = db.relationship("Profile", back_populates="user")
 
+    rankings = db.relationship("Ranking", back_populates="user")
+
 class UserAnswer(db.Model):
     """Slaat se antwoorden van de User op"""
     __tablename__ = "user_answers"
@@ -62,3 +64,10 @@ class Profile(db.Model):
     bio = db.Column(db.String, nullable=True)
     user = db.relationship("User", back_populates="profile")
     
+class Ranking(db.Model):
+    __tablename__ = "rankings"
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    song_title = db.Column(db.String, nullable=False)
+    rank = db.Column(db.Integer, nullable=True)
+    user = db.relationship("User", back_populates="rankings")

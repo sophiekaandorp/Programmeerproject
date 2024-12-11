@@ -1,7 +1,7 @@
 import os
 import requests
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from sqlalchemy.orm import scoped_session, sessionmaker
 from models import *
@@ -162,7 +162,7 @@ def question(question_id):
         if next_question:
             return redirect(f"/question/{next_question.id}")
         else:
-            return redirect("/matches")
+            return redirect("/rank")
     return render_template("questions.html", question=question)
 
 @app.route("/matches", methods=["GET"])
@@ -204,13 +204,39 @@ def matches():
             other_user_answer_list.append((answer.question_id, answer.answer_id))
 
         # we tellen de overeenkomsten tussen de twee lijsten
-        similar = 0
+        similar_answers = 0
         for user_answer in user_answer_list:
             if user_answer in other_user_answer_list:
-                similar += 1
+                similar_answers += 1
+
+        # we halen de rankings van user op
+        user_rankings = Ranking.query.filter_by(user_id=user_id).all()
+
+        # we maken een lijst voor de user met combi van song en ranking voor die song
+        user_rank_list = []
+        for ranking in user_rankings:
+            user_rank_list.append((ranking.song_title, ranking.rank))
+
+        # we halen de rankings van alle andere users op
+        other_rankings = Ranking.query.filter_by(user_id=other_user.id).all()
+
+        # we maken een lijst voor de andere usere user met combi van dong en ranking voor die song
+        other_rank_list = []
+        for ranking in other_rankings:
+            other_rank_list.append((ranking.song_title, ranking.rank))
+
+        # we tellen de overeenkomsten tussen de twee lijsten
+        similar_rankings = 0
+        for user_song, user_rank in user_rank_list:
+            for other_song, other_rank in other_rank_list:
+                if user_song == other_song and user_rank == other_rank:
+
+                    # de ranking van de nummers geven we een gewicht van 0.5 per goede vraag
+                    similar_rankings += 0.5
 
         # we berekenen het percentage van de antworoden die twee users overeenkomen
-        percentage = (similar / total_questions) * 100
+        # elke vraag van 1 t/m 7 is 1 punt waard, en elke zelfde ranking is 0.5 punt waard
+        percentage = ((similar_answers + similar_rankings) / (total_questions + 2.5) ) * 100
 
         # Voeg de overeenkomsten toe aan de lijst (we ronden percentage af op 2 decimalen)
         matches.append((other_user, round(percentage, 2)))
@@ -267,6 +293,67 @@ def view_profile(user_id):
     # we geven het profiel van de user weer
     user = User.query.get(user_id)
     return render_template("profile.html", profile=profile, username=user.username)
+
+@app.route('/rank', methods=['GET', 'POST'])
+@login_required
+def rank():
+    """nummers ranken"""
+    user_id = session["user_id"]
+
+    if request.method == 'POST':
+
+        # hier gaan we de ranks aan toevoegen
+        ranks = []
+
+        # NOG IN 1 FOR LOOP ZETTEM
+        rank_1 = request.form.get("rank1")
+        rank_2 = request.form.get("rank2")
+        rank_3 = request.form.get("rank3")
+        rank_4 = request.form.get("rank4")
+        rank_5 = request.form.get("rank5")
+
+        if rank_1:
+            ranks.append(int(rank_1))
+
+        if rank_2:
+            ranks.append(int(rank_2))
+
+        if rank_3:
+            ranks.append(int(rank_3))
+
+        if rank_4:
+            ranks.append(int(rank_4))
+
+        if rank_5:
+            ranks.append(int(rank_5))
+
+        # we checken of er geen rankings dubbel zijn ingevoerd
+        # https://stackoverflow.com/questions/12282232/how-do-i-count-occurrence-of-unique-values-inside-a-list
+        if len(ranks) != len(set(ranks)):
+            flash("Fout: Zorg ervoor dat elke nummer een unieke rang heeft!")
+
+            # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask
+            return redirect(url_for('rank'))
+
+        # We verwijderen eerst de ranking van user (zodat vervangen wordt als nodg)
+        Ranking.query.filter_by(user_id=user_id).delete()
+
+        # We voegen de nummers toe
+        song_titles = ["Shape of You", "Don't Stop Believin'", "God's Plan", "Bad Guy", "Another One Bites The Dust"]
+
+        # we voegen aan de Ranking van user de nummers met de ranking toe
+        for index in range(len(song_titles)):
+            db.session.add(Ranking(user_id=user_id, song_title=song_titles[index], rank=ranks[index]))
+
+        db.session.commit()
+
+        # hierna gaan we door naar de uitslag
+        # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask
+        return redirect(url_for("matches"))
+
+    return render_template('rank_songs.html')
+
+    """error oplossen voor als er niks is ingevuld bij ranking: IndexError: list index out of range"""
 
 if __name__ == "__main__":
     app.run()

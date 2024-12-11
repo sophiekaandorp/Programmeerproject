@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Rangschik de Nummers
+{% endblock %}
+
+{% block main %}
+    <h1>Rangschik de Nummers</h1>
+    <h3>Let op! Geef elk nummer een unieke rangschikking.</h3>
+
+    <form action="/rank" method="post">
+        <div class="mb-4">
+            <h3>Shape of You - Ed Sheeran</h3>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/7qiZfU4dY1lWllzX7mPBI3?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <label for="rank1">Rang: </label>
+            <select id="rank1" name="rank1">
+                <option value="">Kies een rang</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <h3>Don't Stop Believin' - Journey</h3>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/77NNZQSqzLNqh2A9JhLRkg?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <label for="rank2">Rang: </label>
+            <select id="rank2" name="rank2">
+                <option value="">Kies een rang</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <h3>God's Plan - Drake</h3>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6DCZcSspjsKoFjzjrWoCdn?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <label for="rank3">Rang: </label>
+            <select id="rank3" name="rank3">
+                <option value="">Kies een rang</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <h3>Bad Guy - Billie Eilish</h3>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2Fxmhks0bxGSBdJ92vM42m?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <label for="rank4">Rang: </label>
+            <select id="rank4" name="rank4">
+                <option value="">Kies een rang</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+
+        <div class="mb-4">
+            <h3>Another One Bites The Dust - Queen</h3>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5vdp5UmvTsnMEMESIF2Ym7?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <label for="rank5">Rang: </label>
+            <select id="rank5" name="rank5">
+                <option value="">Kies een rang</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+
+        <button type="submit" value="Submit">Verzend Rangschikking</button>
+    </form>
+{% endblock %}
