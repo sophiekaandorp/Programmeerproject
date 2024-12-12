@@ -262,16 +262,18 @@ def my_profile():
 
     if request.method == "POST":
 
-        # we vragen om de bio
+        # we vragen om de bio en instagram
         bio = request.form.get("bio")
+        instagram = request.form.get("instagram")
 
-        # als er al een profiel is, vervangen we de bio
+        # als er al een profiel is, vervangen we de bio en instagram
         if profile:
             profile.bio = bio
+            profile.instagram = instagram
 
-        # anders voegen we de bio toe aan het profil/we creeren dus het profieel
+        # anders voegen we de bio en instagram toe aan het profil/we creeren dus het profieel
         else:
-            profile = Profile(user_id=session["user_id"], bio=bio)
+            profile = Profile(user_id=session["user_id"], bio=bio, instagram=instagram)
             db.session.add(profile)
 
         db.session.commit()
@@ -327,9 +329,9 @@ def rank():
         if rank_5:
             ranks.append(int(rank_5))
 
-        # we checken of er geen rankings dubbel zijn ingevoerd
+        # we checken of er geen rankings dubbel zijn ingevoerd en of er uberhaupt iets is ingevuld
         # https://stackoverflow.com/questions/12282232/how-do-i-count-occurrence-of-unique-values-inside-a-list
-        if len(ranks) != len(set(ranks)):
+        if len(ranks) != len(set(ranks)) or len(ranks)==0:
             flash("Fout: Zorg ervoor dat elke nummer een unieke rang heeft!")
 
             # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask
@@ -353,7 +355,22 @@ def rank():
 
     return render_template('rank_songs.html')
 
-    """error oplossen voor als er niks is ingevuld bij ranking: IndexError: list index out of range"""
+
+@app.route('/website_instagram/<int:profile_id>')
+def website_instagram(profile_id):
+
+    # Hier halen we het profiel op
+    profile = Profile.query.get(profile_id)
+
+    # als de gebruiker geen instagram account heeft ingevuld.
+    if not profile or not profile.instagram:
+            flash("Deze gebruiker heeft geen Instagram profiel opgegeven.")
+
+            # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask
+            return redirect(url_for('matches'))
+    
+    # Als het profiel bestaat, gaan we naar het instagram account
+    return redirect(f"http://www.instagram.com/{profile.instagram}/", code=302)
 
 if __name__ == "__main__":
     app.run()

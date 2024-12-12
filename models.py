@@ -62,6 +62,7 @@ class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     bio = db.Column(db.String, nullable=True)
+    instagram = db.Column(db.String, nullable=True)
     user = db.relationship("User", back_populates="profile")
     
 class Ranking(db.Model):
@@ -69,5 +70,5 @@ class Ranking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     song_title = db.Column(db.String, nullable=False)
-    rank = db.Column(db.Integer, nullable=True)
+    rank = db.Column(db.Integer, nullable=False)
     user = db.relationship("User", back_populates="rankings")

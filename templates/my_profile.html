@@ -15,12 +15,18 @@
             <label for="bio">Biografie:</label>
             <textarea id="bio" name="bio" class="form-control" rows="4">{{ profile.bio }}</textarea>
         </div>
+        <div class="mb-3">
+            <label for="instagram">Instagram:</label>
+            <textarea id="instagram" name="instagram" class="form-control" rows="1">{{ profile.instagram }}</textarea>
+        </div>
         <button type="submit" class="btn btn-primary">Bijwerken</button>
     </form>
 
     {% if profile %}
         <h2>Huidige Biografie:</h2>
         <p>{{ profile.bio }}</p>
+        <h2>Huidige Instagram:</h2>
+        <p>{{ profile.instagram }}</p>
     {% else %}
         <p>Je hebt nog geen biografie ingesteld.</p>
     {% endif %}
