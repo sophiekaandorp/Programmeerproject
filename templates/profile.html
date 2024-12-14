@@ -5,13 +5,16 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Profiel van {{ username }}</h1>
-    {% if profile %}
-        <p><strong>Bio:</strong> {{ profile.bio }}</p>
-        <p><strong>Instagram:</strong> {{ profile.instagram }}</p>
-        <p>Bekijk het instagram profiel van jouw match:</p>
-        <a href="{{ url_for('website_instagram', profile_id=profile.id) }}" class="btn btn-primary">Bekijk Instagram</a>
-    {% else %}
-        <p>Dit profiel heeft nog geen bio.</p>
-    {% endif %}
+    <img src="/static/images/koptelefoon.png" alt="cirkel", class="cirkel">
+    <div class="profile-container">
+        <h1>Profiel van {{ username }}</h1>
+        
+        {% if profile %}
+            <p><strong>Bio:</strong> {{ profile.bio }}</p>
+            <p><strong>Bekijk het instagram profiel van jouw match:</strong></p>
+            <a href="{{ url_for('website_instagram', profile_id=profile.id) }}" class="btn btn-primary btn-left">Bekijk Instagram</a>
+        {% else %}
+            <p>Dit profiel heeft nog geen bio.</p>
+        {% endif %}
+    </div>
 {% endblock %}

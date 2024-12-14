@@ -6,10 +6,12 @@
 
 {% block main %}
     <h1>Welkom bij Musicmatch, {{username}}!</h1>
-    <p>Vind jouw muzikale match en laat de muziek je verbinden!</p>
-    <a href="/question/1" class="btn btn-primary">Start Test</a>
-
-    <h2>Profiel</h2>
+    <img src="/static/images/mensen.png" class="mensen">
+    <h2>Ontdek jouw perfecte muziekmatch!</h2>
+    <p>Klaar om je ideale match te vinden?</p>
+    <h6>Beantwoord een paar leuke vragen en vind mensen met dezelfde muzieksmaak.</h6>
+    <a href="/question/1" class="btn btn-primary btn-left">Start Test</a>
     <p>Wil je je profiel aanpassen?</p>
-    <a href="/profile/me" class="btn btn-primary">Aanpassen</a>
+    <h6>Vul je profiel aan en maak het makkelijker voor anderen om je te leren kennen.</h6>
+    <a href="/profile/me" class="btn btn-primary btn-left">Aanpassen</a>
 {% endblock %}

@@ -54,7 +54,9 @@ def login():
         user = User.query.filter_by(username=username).first()
 
         if not user or not check_password_hash(user.hash, password):
-            return render_template("error.html", message="Onjuiste gebruikersnaam of wachtwoord, probeer het opnieuw.")
+            flash("Onjuiste gebruikersnaam of wachtwoord, probeer het opnieuw.")
+            return redirect(url_for('login'))
+            #return render_template("error.html", message="Onjuiste gebruikersnaam of wachtwoord, probeer het opnieuw.")
 
         session["user_id"] = user.id
 
@@ -78,11 +80,15 @@ def register():
         if not password or not confirmation:
             return render_template("error.html", message="Vul een wachtwoord in.")
         if password != confirmation:
-            return render_template("error.html", message="Wachtwoorden komen niet overeen.")
+            flash("Wachtwoorden komen niet overeen.")
+            return redirect(url_for('register'))
+            #return render_template("error.html", message="Wachtwoorden komen niet overeen.")
         
         # check of username al bestaat
         if User.query.filter_by(username=username).first():
-            return render_template("error.html", message="Gebruikersnaam is al in gebruik.")
+            flash("Gebruikersnaam is al in gebruik.")
+            return redirect(url_for('register'))
+            #return render_template("error.html", message="Gebruikersnaam is al in gebruik.")
 
         # use generate_password_hash to store hash of the password in db
         hash = generate_password_hash(password)
@@ -141,7 +147,10 @@ def question(question_id):
 
         # als er geen antwoord is geselecteerd door user
         if answer_id is None:
-            return render_template("error.html", message="Geen antwoord geselecteerd.")
+            flash("Fout! Vul een antwoord in!")
+
+            return redirect(url_for("question", question_id=question_id))
+
 
         # we zoeken op of de gebruiker al eerder deze vraag heeft beantwoord
         old_answer = UserAnswer.query.filter_by(user_id=user_id, question_id=question_id).first()
@@ -243,10 +252,10 @@ def matches():
 
     # https://stackoverflow.com/questions/10695139/sort-a-list-of-tuples-by-2nd-item-integer-value
     # we sorteren de matches op percentage (element 1)
-    matches = sorted(matches, key=lambda x: x[1])
+    matches = sorted(matches, key=lambda x: x[1], reverse=True)
 
     # we selecteren de beste 3 matches
-    top_matches = matches[-3:]
+    top_matches = matches[:3]
 
     """Voeg hier nog extra restricties toe voor bijv nul macthes, of meerder met zelfde percentage!!1"""
 
@@ -307,7 +316,6 @@ def rank():
         # hier gaan we de ranks aan toevoegen
         ranks = []
 
-        # NOG IN 1 FOR LOOP ZETTEM
         rank_1 = request.form.get("rank1")
         rank_2 = request.form.get("rank2")
         rank_3 = request.form.get("rank3")
@@ -331,7 +339,7 @@ def rank():
 
         # we checken of er geen rankings dubbel zijn ingevoerd en of er uberhaupt iets is ingevuld
         # https://stackoverflow.com/questions/12282232/how-do-i-count-occurrence-of-unique-values-inside-a-list
-        if len(ranks) != len(set(ranks)) or len(ranks)==0:
+        if len(ranks) != len(set(ranks)) or len(ranks)!=5:
             flash("Fout: Zorg ervoor dat elke nummer een unieke rang heeft!")
 
             # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask

@@ -5,19 +5,21 @@
 {% endblock %}
 
 {% block main %}
-    <h2>Mijn Top Matches</h2>
+    <p class="matches-text">Mijn Top Matches</p>
 
     {% if matches %}
-        <ul>
+        <div class="matches-container">
             {% for match, percentage in matches %}
-                <li>
-                    Jij bent voor {{ percentage }}% een match met 
-                    <a href="{{ url_for('view_profile', user_id=match.id) }}">{{ match.username }}</a>
-                </li>
+                <div class="match-card">
+                    <h2>{{ match.username }}</h2>
+                    <p>Match Percentage: <strong>{{ percentage }}%</strong></p>
+                    <a href="{{ url_for('view_profile', user_id=match.id) }}" class="btn btn-primary btn-center-small">Bekijk Profiel</a>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
+    
     {% else %}
-        <p>Je hebt nog geen matches. Voltooi de test om je matches te bekijken!</p>
-        <a href="{{ url_for('question', question_id=1) }}">Start de test</a>
+        <h5>Je hebt nog geen matches. Als je de test nog niet heb voltooid, voltooi dan de test om je matches te bekijken!</h5>
+        <a href="{{ url_for('question', question_id=1) }}" class="btn btn-primary btn-center-small">Start de test</a>
     {% endif %}
 {% endblock %}
