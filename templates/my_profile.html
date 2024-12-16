@@ -5,23 +5,21 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Mijn Profiel</h1>
-    <img src="/static/images/koptelefoon.png" alt="cirkel", class="cirkel">
-    <h6>Welkom bij je profiel! Jouw profiel is de de plek waar mensen jou leren kennen. Vertel hier iets bijzonders over jezelf:
-        wie ben jij, en waarom zouden anderen jou moeten leren kennen? Deel iets leuks dat je toekomstige muziekpartners 
-        nieuwsgierig maakt! 
-    </h6>
-    <h6>
-        <strong>Vergeet niet om je Instagram-gebruikersnaam toe te voegen, zodat anderen makkelijk contact met je kunnen opnemen.</strong>
-    </h6>
+    
+    <img src="/static/images/profiel.png", class="profiel">
+    <div class="my_profile-container">
+        <h1>Mijn Profiel</h1>
+        <h6>Welkom! Dit is jouw profiel. Vertel iets over jezelf en waarom anderen jou zouden moeten leren kennen.</h6>
+        <h6>Vergeet niet je <strong>Instagram-gebruikersnaam</strong> toe te voegen, zodat anderen gemakkelijk contact met je kunnen opnemen.</h6>
+    </div>
     <form action="/profile/me" method="post">
         <div class="mb-3">
-            <label for="bio">Biografie:</label>
+            <p class="my_profile-text">Huidige biografie (klik om te wijzigen):</p>
             <textarea id="bio" name="bio" class="form-control textarea" rows="4" placeholder="Vertel iets over jezelf...">{{ profile.bio }}</textarea>
         </div>
 
         <div class="mb-3">
-            <label for="instagram">Instagram:</label>
+            <p class="my_profile-text">Huidige Instagram (klik om te wijzigen):</p>
             <textarea id="instagram" name="instagram" class="form-control textarea" rows="1" placeholder="Voer je Instagram-gebruikersnaam in...">{{ profile.instagram }}</textarea>
         </div>
 

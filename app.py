@@ -45,19 +45,12 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        if not username:
-            return render_template("error.html", message="Vul een gebruikersnaam in.")
-
-        if not password:
-            return render_template("error.html", message="Vul een wachtwoord in.")
-
         user = User.query.filter_by(username=username).first()
 
         if not user or not check_password_hash(user.hash, password):
             flash("Onjuiste gebruikersnaam of wachtwoord, probeer het opnieuw.")
-            return redirect(url_for('login'))
-            #return render_template("error.html", message="Onjuiste gebruikersnaam of wachtwoord, probeer het opnieuw.")
-
+            return render_template("login.html")
+        
         session["user_id"] = user.id
 
         return redirect("/")
@@ -75,20 +68,14 @@ def register():
         password = request.form.get("password")
         confirmation = request.form.get("confirmation")
         
-        if not username:
-            return render_template("error.html", message="Vul een gebruikersnaam in.")
-        if not password or not confirmation:
-            return render_template("error.html", message="Vul een wachtwoord in.")
         if password != confirmation:
             flash("Wachtwoorden komen niet overeen.")
-            return redirect(url_for('register'))
-            #return render_template("error.html", message="Wachtwoorden komen niet overeen.")
+            return redirect(url_for("register"))
         
         # check of username al bestaat
         if User.query.filter_by(username=username).first():
             flash("Gebruikersnaam is al in gebruik.")
-            return redirect(url_for('register'))
-            #return render_template("error.html", message="Gebruikersnaam is al in gebruik.")
+            return redirect(url_for("register"))
 
         # use generate_password_hash to store hash of the password in db
         hash = generate_password_hash(password)
@@ -254,10 +241,14 @@ def matches():
     # we sorteren de matches op percentage (element 1)
     matches = sorted(matches, key=lambda x: x[1], reverse=True)
 
-    # we selecteren de beste 3 matches
-    top_matches = matches[:3]
+    # we checken of er geen matches met 0% tussen staan
+    final_matches = []
+    for match in matches:
+        if match[1] > 0:
+            final_matches.append(match)
 
-    """Voeg hier nog extra restricties toe voor bijv nul macthes, of meerder met zelfde percentage!!1"""
+    # we selecteren de beste 3 matches
+    top_matches = final_matches[:3]
 
     # De top matches worden worden doorgegeven aan template. 
     return render_template("matches.html", matches=top_matches)
@@ -298,8 +289,9 @@ def view_profile(user_id):
 
     # we halen het profiel op
     profile = Profile.query.filter_by(user_id=user_id).first()
-    if not profile:
-        return render_template("error.html", message="Profiel niet gevonden.")
+    if not profile or profile.bio == "":
+        flash("Deze gebruiker heeft nog geen profiel aangemaakt.")
+        return redirect(url_for("matches"))
     
     # we geven het profiel van de user weer
     user = User.query.get(user_id)
@@ -345,7 +337,7 @@ def rank():
             # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask
             return redirect(url_for('rank'))
 
-        # We verwijderen eerst de ranking van user (zodat vervangen wordt als nodg)
+        # We verwijderen eerst de ranking van user (zodat vervangen wordt als nodig)
         Ranking.query.filter_by(user_id=user_id).delete()
 
         # We voegen de nummers toe
@@ -372,10 +364,8 @@ def website_instagram(profile_id):
 
     # als de gebruiker geen instagram account heeft ingevuld.
     if not profile or not profile.instagram:
-            flash("Deze gebruiker heeft geen Instagram profiel opgegeven.")
-
-            # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask
-            return redirect(url_for('matches'))
+        flash("Deze gebruiker heeft geen Instagram profiel opgegeven.")
+        return render_template("profile.html", profile=profile)
     
     # Als het profiel bestaat, gaan we naar het instagram account
     return redirect(f"http://www.instagram.com/{profile.instagram}/", code=302)

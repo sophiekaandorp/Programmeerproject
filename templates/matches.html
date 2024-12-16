@@ -16,10 +16,15 @@
                     <a href="{{ url_for('view_profile', user_id=match.id) }}" class="btn btn-primary btn-center-small">Bekijk Profiel</a>
                 </div>
             {% endfor %}
+
         </div>
-    
+            <p class="aanpassen_profiel-text">Zorg ervoor dat je matches jou kunnen vinden! <strong>Vul je profiel aan</strong> voor de beste connecties!</hp>
+            <a href="/profile/me" class="btn btn-primary btn-center-small">Aanpassen</a>
     {% else %}
         <h5>Je hebt nog geen matches. Als je de test nog niet heb voltooid, voltooi dan de test om je matches te bekijken!</h5>
         <a href="{{ url_for('question', question_id=1) }}" class="btn btn-primary btn-center-small">Start de test</a>
     {% endif %}
+    {% if matches %}
+    {% endif %}
+
 {% endblock %}

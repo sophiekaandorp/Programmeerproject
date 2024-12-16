@@ -9,12 +9,29 @@ body {
     font-size: 55px;
     text-align: center;
 }
+.aanpassen_profiel-text{
+    margin-left: 40px;
+    font-family: 'verdana';
+    color: rgb(74, 74, 76);
+    font-size: 20px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.my_profile-text{
+    margin-left: 0px;
+    font-family: 'verdana';
+    color: rgb(74, 74, 76);
+    font-size: 18px;
+    text-align: left;
+    margin-top: 10px;
+}
 
 h1 {
     margin-left: 40px;
     font-family: 'verdana';
     color: rgb(18,120,111);
-    font-size: 55px;
+    font-size: 40px;
     text-align: left;
 }
 
@@ -24,7 +41,7 @@ h2 {
     color: rgb(74, 74, 76);
     font-size: 25px;
     text-align: left;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 h3 {
@@ -66,6 +83,31 @@ p {
     color: rgb(10, 10, 10);
     text-align: left;
     font-size: 25px;
+    margin-bottom: 5px;
+}
+
+/* stijling voor navigatiebalk */
+.navbar {
+    background-color: rgb(18,120,111) !important;
+}
+
+.navbar-brand{
+    color: rgb(194, 233, 230) !important;
+}
+
+.nav-link {
+    color: rgb(156, 202, 198) !important;
+}
+
+.nav-link:hover {
+    color: white !important;
+}
+
+
+/* stijling van flashbericht */
+.alert.alert-primary.mb-0.text-center{
+    background-color: rgb(253, 82, 27);
+    color: white
 }
 
 
@@ -80,6 +122,7 @@ form {
 /* stijl invulvakjes */
 .form-control:hover {
     border-color: rgb(18, 120, 111);
+    
 }
 
 .form-control:focus {
@@ -88,7 +131,7 @@ form {
 }
 
 .textarea {
-    width: 500px; 
+    width: 650px; 
     border-radius: 10px;
     resize: none;
 }
@@ -149,10 +192,19 @@ select option {
     margin-right:100px;
 }
 
+.profiel {
+    max-width: 35%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    float: right;
+    margin-right:100px;
+}
+
 
 /* containers */
 .login-container {
-    max-width: 550px;
+    max-width: 55%;
     margin: auto;
     padding: 40px;
     background-color: rgb(250, 250, 250);
@@ -160,7 +212,7 @@ select option {
 }
 
 .register-container {
-    max-width: 550px;
+    max-width: 55%;
     margin: auto;
     padding: 40px;
     background-color: rgb(250, 250, 250);
@@ -175,8 +227,32 @@ select option {
 }
 
 .profile-container {
-    max-width: 800px;
+    max-width: 70%;
     margin: auto;
+    padding: 40px;
+    background-color: rgb(250, 250, 250);
+    box-shadow: 0 4px 6px rgb(151, 151, 151);
+}
+
+.index-container {
+    max-width: 75%;
+    margin: auto;
+    padding: 40px;
+    background-color: rgb(250, 250, 250);
+    box-shadow: 0 4px 6px rgb(151, 151, 151);
+}
+
+.my_profile-container {
+    max-width: 60%;
+    margin-left: 40px;
+    padding: 40px;
+    background-color: rgb(250, 250, 250);
+    box-shadow: 0 4px 6px rgb(151, 151, 151);
+}
+
+.question-container {
+    max-width: 65%;
+    margin-left: 40px;
     padding: 40px;
     background-color: rgb(250, 250, 250);
     box-shadow: 0 4px 6px rgb(151, 151, 151);
@@ -226,6 +302,12 @@ select option {
     background-color: rgb(30, 161, 150);
 }
 
+.btn-primary:focus {
+    box-shadow: 0 0 5px rgb(30, 161, 150);
+    background-color: rgb(30, 161, 150);
+}
+
+
 .btn-left {
     display: block;
     margin: 0;
@@ -261,5 +343,3 @@ button {
 button:hover {
     background-color: rgb(30, 161, 150);
 }
-
-
