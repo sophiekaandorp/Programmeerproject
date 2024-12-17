@@ -23,8 +23,8 @@ Muziekmatch is een webapplicatie die muziekliefhebbers met elkaar verbindt door 
 3. **Installeer de vereiste packages:**
 Run ***python3 -m pip install -r requirements.txt***
 
-4. **Stel de database-URL in:** Vervang *jouw_wachtwoord* door je eigen PostgreSQL-wachtwoord.
-Run ***export DATABASE_URL="postgresql://postgres:jouw_wachtwoord@localhost/musicmatch"***
+4. **Stel de database-URL in:** Run ***export DATABASE_URL="postgresql://postgres:jouw_wachtwoord@localhost/musicmatch"***
+    - Vervang *jouw_wachtwoord* door je eigen PostgreSQL-wachtwoord.
 
 5. **Maak de database aan:** Zorg ervoor dat de database musicmatch bestaat. Voer de volgende commando in in de PostgreSQL-shell:
 ***CREATE DATABASE musicmatch;***
