@@ -2,31 +2,7 @@ body {
     background-color: rgb(191,214,212);
   }
 
-.matches-text{
-    margin-left: 40px;
-    font-family: 'verdana';
-    color: rgb(18,120,111);
-    font-size: 55px;
-    text-align: center;
-}
-.aanpassen_profiel-text{
-    margin-left: 40px;
-    font-family: 'verdana';
-    color: rgb(74, 74, 76);
-    font-size: 20px;
-    text-align: center;
-    margin-top: 40px;
-}
-
-.my_profile-text{
-    margin-left: 0px;
-    font-family: 'verdana';
-    color: rgb(74, 74, 76);
-    font-size: 18px;
-    text-align: left;
-    margin-top: 10px;
-}
-
+/* Titel text */
 h1 {
     margin-left: 40px;
     font-family: 'verdana';
@@ -35,15 +11,25 @@ h1 {
     text-align: left;
 }
 
+/* Mededeling text */
+p {
+    margin-left: 40px;
+    color: rgb(10, 10, 10);
+    text-align: left;
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+/* Uitleg/Omschrijving text */
 h2 {
     margin-left: 40px;
     font-family: 'verdana';
     color: rgb(74, 74, 76);
-    font-size: 25px;
+    font-size: 15px;
     text-align: left;
-    margin-bottom: 10px;
 }
 
+/* Meerkeuzevragen text */
 h3 {
     margin-left: 40px;
     font-family: 'verdana';
@@ -52,15 +38,17 @@ h3 {
     text-align: left;
 }
 
+/* My profile text boven textarea */
 h4 {
-    margin-left: 40px;
+    margin-left: 0px;
     font-family: 'verdana';
-    color: rgb(120, 120, 123);
-    font-size: 20px;
+    color: rgb(74, 74, 76);
+    font-size: 18px;
     text-align: left;
-    margin-bottom: 50px;
+    margin-top: 10px;
 }
 
+/* Titels van nummers + Je hebt nog geen matches text */
 h5 {
     margin-top: 40px;
     margin-left: 40px;
@@ -70,21 +58,25 @@ h5 {
     text-align: center;
 }
 
+/* Mijn Top Matches text */
 h6 {
     margin-left: 40px;
     font-family: 'verdana';
-    color: rgb(74, 74, 76);
-    font-size: 15px;
-    text-align: left;
+    color: rgb(18,120,111);
+    font-size: 55px;
+    text-align: center;
 }
 
-p {
+/* Mededeling profiel aanpassen */
+.aanpassen_profiel-text{
     margin-left: 40px;
-    color: rgb(10, 10, 10);
-    text-align: left;
-    font-size: 25px;
-    margin-bottom: 5px;
+    font-family: 'verdana';
+    color: rgb(74, 74, 76);
+    font-size: 20px;
+    text-align: center;
+    margin-top: 40px;
 }
+
 
 /* stijling voor navigatiebalk */
 .navbar {
@@ -194,6 +186,15 @@ select option {
 
 .profiel {
     max-width: 35%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    float: right;
+    margin-right:100px;
+}
+
+.koptelefoon {
+    max-width: 30%;
     height: auto;
     display: block;
     margin: 0 auto;

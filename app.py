@@ -103,13 +103,13 @@ def logout():
 @app.route("/")
 @login_required
 def index():
-    """Hier moet ik nog index aan toevoegen!!!!!"""
+    """Home page"""
     user_id = session["user_id"]
 
     # we halen de user op
     user = User.query.get(user_id)
 
-    # run de template met welkom en verwijzing naa de test
+    # run de template met welkom en verwijzing naar de test en profiel aanpassen
     return render_template("index.html", username=user.username)
 
 
@@ -138,7 +138,6 @@ def question(question_id):
 
             return redirect(url_for("question", question_id=question_id))
 
-
         # we zoeken op of de gebruiker al eerder deze vraag heeft beantwoord
         old_answer = UserAnswer.query.filter_by(user_id=user_id, question_id=question_id).first()
 
@@ -146,20 +145,21 @@ def question(question_id):
         if old_answer:
             old_answer.answer_id = answer_id
 
-        # als nog niet benatwoord, voegen we dit antwoord toe aan de database
+        # als nog niet beantwoord, voegen we dit antwoord toe aan de database
         else:
             new_answer = UserAnswer(user_id=user_id, question_id=question_id, answer_id=answer_id)
             db.session.add(new_answer)
 
         db.session.commit()
 
-        # we kijken of er een nieuwe vraag is, als dat zo is gaan we naar die, anders gaan we naar uitslag
+        # we kijken of er een nieuwe vraag is, als dat zo is gaan we naar die, anders gaan we naar ranking
         next_question = Question.query.filter(Question.id > question_id).first()
         if next_question:
             return redirect(f"/question/{next_question.id}")
         else:
             return redirect("/rank")
     return render_template("questions.html", question=question)
+
 
 @app.route("/matches", methods=["GET"])
 @login_required
@@ -178,6 +178,7 @@ def matches():
     # totale aantal questions is lengte van de lijst
     total_questions = len(user_answer_list)
 
+    # als de vragen nog niet zijn beantwoord
     if total_questions == 0:
         matches = []
         return render_template("matches.html", matches=matches)
@@ -216,7 +217,7 @@ def matches():
         # we halen de rankings van alle andere users op
         other_rankings = Ranking.query.filter_by(user_id=other_user.id).all()
 
-        # we maken een lijst voor de andere usere user met combi van dong en ranking voor die song
+        # we maken een lijst voor de andere usere user met combi van song en ranking voor die song
         other_rank_list = []
         for ranking in other_rankings:
             other_rank_list.append((ranking.song_title, ranking.rank))
@@ -232,19 +233,19 @@ def matches():
 
         # we berekenen het percentage van de antworoden die twee users overeenkomen
         # elke vraag van 1 t/m 7 is 1 punt waard, en elke zelfde ranking is 0.5 punt waard
-        percentage = ((similar_answers + similar_rankings) / (total_questions + 2.5) ) * 100
+        percentage = ((similar_answers + similar_rankings) / (9.5) ) * 100
 
         # Voeg de overeenkomsten toe aan de lijst (we ronden percentage af op 2 decimalen)
         matches.append((other_user, round(percentage, 2)))
 
-    # https://stackoverflow.com/questions/10695139/sort-a-list-of-tuples-by-2nd-item-integer-value
     # we sorteren de matches op percentage (element 1)
+    # Bron: https://stackoverflow.com/questions/10695139/sort-a-list-of-tuples-by-2nd-item-integer-value
     matches = sorted(matches, key=lambda x: x[1], reverse=True)
 
-    # we checken of er geen matches met 0% tussen staan
+    # we hebben een match als je voor meer dan 60% met iemand gematcht bent
     final_matches = []
     for match in matches:
-        if match[1] > 0:
+        if match[1] > 60:
             final_matches.append(match)
 
     # we selecteren de beste 3 matches
@@ -257,6 +258,7 @@ def matches():
 @login_required
 def my_profile():
     """eigen profiel bekijken/aanpassen"""
+
     # we halen het profiel op
     profile = Profile.query.filter_by(user_id=session["user_id"]).first()
 
@@ -271,14 +273,16 @@ def my_profile():
             profile.bio = bio
             profile.instagram = instagram
 
-        # anders voegen we de bio en instagram toe aan het profil/we creeren dus het profieel
+        # anders voegen we de bio en instagram toe aan het profiel, we creeren dus het profiel
         else:
             profile = Profile(user_id=session["user_id"], bio=bio, instagram=instagram)
             db.session.add(profile)
 
         db.session.commit()
 
-        return redirect("/profile/me")
+        # we hebben de profielgegevens opgeslagen en gaan terug naar home page
+        flash("Profielgegevens succesvol opgeslagen.")
+        return redirect("/")
 
     return render_template("my_profile.html", profile=profile)
 
@@ -289,6 +293,8 @@ def view_profile(user_id):
 
     # we halen het profiel op
     profile = Profile.query.filter_by(user_id=user_id).first()
+
+    # we geven een flashbericht als de gebruiker nog geen profielgegevens heeft ingevuld.
     if not profile or profile.bio == "":
         flash("Deze gebruiker heeft nog geen profiel aangemaakt.")
         return redirect(url_for("matches"))
@@ -301,19 +307,21 @@ def view_profile(user_id):
 @login_required
 def rank():
     """nummers ranken"""
-    user_id = session["user_id"]
 
+    user_id = session["user_id"]
     if request.method == 'POST':
 
         # hier gaan we de ranks aan toevoegen
         ranks = []
 
+        # vraag van elke song de rank op
         rank_1 = request.form.get("rank1")
         rank_2 = request.form.get("rank2")
         rank_3 = request.form.get("rank3")
         rank_4 = request.form.get("rank4")
         rank_5 = request.form.get("rank5")
 
+        # als de rank is opgegeven, voegen we deze toe aan ranks
         if rank_1:
             ranks.append(int(rank_1))
 
@@ -329,28 +337,25 @@ def rank():
         if rank_5:
             ranks.append(int(rank_5))
 
-        # we checken of er geen rankings dubbel zijn ingevoerd en of er uberhaupt iets is ingevuld
-        # https://stackoverflow.com/questions/12282232/how-do-i-count-occurrence-of-unique-values-inside-a-list
+        # we checken of elke ranking (uniek) is ingevuld
+        # Bron: https://stackoverflow.com/questions/12282232/how-do-i-count-occurrence-of-unique-values-inside-a-list
         if len(ranks) != len(set(ranks)) or len(ranks)!=5:
             flash("Fout: Zorg ervoor dat elke nummer een unieke rang heeft!")
-
-            # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask
             return redirect(url_for('rank'))
 
-        # We verwijderen eerst de ranking van user (zodat vervangen wordt als nodig)
+        # we verwijderen eerst de ranking van user (zodat deze vervangen wordt als dit nodig is)
         Ranking.query.filter_by(user_id=user_id).delete()
 
         # We voegen de nummers toe
         song_titles = ["Shape of You", "Don't Stop Believin'", "God's Plan", "Bad Guy", "Another One Bites The Dust"]
 
-        # we voegen aan de Ranking van user de nummers met de ranking toe
+        # we voegen aan de ranking van user de nummers met de ranking toe
         for index in range(len(song_titles)):
             db.session.add(Ranking(user_id=user_id, song_title=song_titles[index], rank=ranks[index]))
 
         db.session.commit()
 
         # hierna gaan we door naar de uitslag
-        # https://stackoverflow.com/questions/14343812/redirecting-to-url-in-flask
         return redirect(url_for("matches"))
 
     return render_template('rank_songs.html')
@@ -358,8 +363,9 @@ def rank():
 
 @app.route('/website_instagram/<int:profile_id>')
 def website_instagram(profile_id):
+    """Naar Instagram"""
 
-    # Hier halen we het profiel op
+    # we halen het profiel op
     profile = Profile.query.get(profile_id)
 
     # als de gebruiker geen instagram account heeft ingevuld.
@@ -368,7 +374,7 @@ def website_instagram(profile_id):
         return render_template("profile.html", profile=profile)
     
     # Als het profiel bestaat, gaan we naar het instagram account
-    return redirect(f"http://www.instagram.com/{profile.instagram}/", code=302)
+    return redirect(f"http://www.instagram.com/{profile.instagram}/")
 
 if __name__ == "__main__":
     app.run()

@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Matches
+    Matches Weergave
 {% endblock %}
 
 {% block main %}
-    <p class="matches-text">Mijn Top Matches</p>
+    <h6>Mijn Top Matches</h6>
 
     {% if matches %}
         <div class="matches-container">
@@ -18,7 +18,7 @@
             {% endfor %}
 
         </div>
-            <p class="aanpassen_profiel-text">Zorg ervoor dat je matches jou kunnen vinden! <strong>Vul je profiel aan</strong> voor de beste connecties!</hp>
+            <p class="aanpassen_profiel-text">Zorg ervoor dat je matches jou kunnen vinden! <strong>Vul je profiel aan</strong> voor de beste connecties!</p>
             <a href="/profile/me" class="btn btn-primary btn-center-small">Aanpassen</a>
     {% else %}
         <h5>Je hebt nog geen matches. Als je de test nog niet heb voltooid, voltooi dan de test om je matches te bekijken!</h5>

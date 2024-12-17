@@ -5,3 +5,4 @@ create.py: Dit run in eenmalig. Daarom staat hier ook add_questions() in, die ma
 
 models.py: Hierin staan de classes gedefinieerd
 
+![Home](home.png)

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    My profile
+    Mijn profiel
 {% endblock %}
 
 {% block main %}
@@ -9,21 +9,21 @@
     <img src="/static/images/profiel.png", class="profiel">
     <div class="my_profile-container">
         <h1>Mijn Profiel</h1>
-        <h6>Welkom! Dit is jouw profiel. Vertel iets over jezelf en waarom anderen jou zouden moeten leren kennen.</h6>
-        <h6>Vergeet niet je <strong>Instagram-gebruikersnaam</strong> toe te voegen, zodat anderen gemakkelijk contact met je kunnen opnemen.</h6>
+        <h2>Welkom! Dit is jouw profiel. Vertel iets over jezelf en waarom anderen jou zouden moeten leren kennen.</h2>
+        <h2>Vergeet niet je <strong>Instagram-gebruikersnaam</strong> toe te voegen, zodat anderen gemakkelijk contact met je kunnen opnemen.</h2>
     </div>
     <form action="/profile/me" method="post">
         <div class="mb-3">
-            <p class="my_profile-text">Huidige biografie (klik om te wijzigen):</p>
+            <h4>Huidige biografie (klik om te wijzigen):</h4>
             <textarea id="bio" name="bio" class="form-control textarea" rows="4" placeholder="Vertel iets over jezelf...">{{ profile.bio }}</textarea>
         </div>
 
         <div class="mb-3">
-            <p class="my_profile-text">Huidige Instagram (klik om te wijzigen):</p>
+            <h4>Huidige Instagram (klik om te wijzigen):</h4>
             <textarea id="instagram" name="instagram" class="form-control textarea" rows="1" placeholder="Voer je Instagram-gebruikersnaam in...">{{ profile.instagram }}</textarea>
         </div>
 
-        <button type="submit">Bijwerken</button>
+        <button type="submit">Opslaan</button>
     </form>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Index
+    Home Page (Index)
 {% endblock %}
 
 {% block main %}
@@ -9,10 +9,10 @@
     <div class="index-container">
         <h1>Welkom bij Musicmatch, {{username}}!</h1>
         <p>Klaar om je ideale match te vinden?</p>
-        <h6>Beantwoord een paar leuke vragen en vind mensen met dezelfde muzieksmaak.</h6>
+        <h2>Beantwoord een paar leuke vragen en vind mensen met dezelfde muzieksmaak.</h2>
         <a href="/question/1" class="btn btn-primary btn-left">Start Test</a>
         <p>Wil je je profiel aanpassen?</p>
-        <h6>Vul je profiel aan en maak het makkelijker voor anderen om je te leren kennen.</h6>
+        <h2>Vul je profiel aan en maak het makkelijker voor anderen om je te leren kennen.</h2>
         <a href="/profile/me" class="btn btn-primary btn-left">Aanpassen</a>
     </div>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Login
+    Inloggen
 {% endblock %}
 
 {% block main %}
@@ -10,7 +10,7 @@
     <form action="/login" method="post">
         <div class="mb-3">
             <label for="username">Gebruikersnaam:</label>
-            <input type="text" id="username" name="username" class="form-control"  placeholder="Voer je gebruikersnaam in" required>
+            <input autocomplete="off" type="text" id="username" name="username" class="form-control"  placeholder="Voer je gebruikersnaam in" required>
         </div>
 
         <div class="mb-3">

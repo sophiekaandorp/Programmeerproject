@@ -8,32 +8,17 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
     hash = db.Column(db.String, nullable=False)
-
-    # relatie tussen user en ingevulde antwoordn
     user_answers = db.relationship("UserAnswer", back_populates="user") 
-
-    # relatie tussen user en profiel
     profile = db.relationship("Profile", back_populates="user")
-
     rankings = db.relationship("Ranking", back_populates="user")
 
 class UserAnswer(db.Model):
-    """Slaat se antwoorden van de User op"""
+    """Slaat de antwoorden van de User op"""
     __tablename__ = "user_answers"
     id = db.Column(db.Integer, primary_key=True)
-
-    # uiteindelijk hoort elk UserAnswer bij een id van user en de question id en answer id 
-    # (die laatste 2 moeten uiteindelijk hetzelfde zijn om te matchen)
-    # verwijst naar id uit users
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-
-    # verwijst naar id uit questions
     question_id = db.Column(db.Integer, db.ForeignKey("questions.id"), nullable=False)
-
-    # verwijst naar id uit answers
     answer_id = db.Column(db.Integer, db.ForeignKey("answers.id"), nullable=True)
-
-    # met de relaties kunnen we via UserAnswer de bijbehorende user/question/answer ophalen.
     user = db.relationship("User", back_populates="user_answers")
     question = db.relationship("Question", back_populates="user_answers")
     answer = db.relationship("Answer", back_populates="user_answers")
@@ -43,8 +28,6 @@ class Question(db.Model):
     __tablename__ = "questions"
     id = db.Column(db.Integer, primary_key=True)
     question_text = db.Column(db.String, nullable=False)
-
-    # met relaties kunnen we via Question naar de bijbehorende (user)answers
     answers = db.relationship("Answer", back_populates="question")
     user_answers = db.relationship("UserAnswer", back_populates="question") 
 
