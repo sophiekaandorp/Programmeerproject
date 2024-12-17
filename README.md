@@ -17,7 +17,7 @@ Muziekmatch is een webapplicatie die muziekliefhebbers met elkaar verbindt door 
     - On WSL on Windows follow these instructions: https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-database#install-postgresql
 
 2. **Start de PostgreSQL-service:**
-    - On a Mac with homebrew run: *brew services start postgresql*
+    - On a Mac with homebrew run: '''brew services start postgresql'''
     - On WSL on Windows run: *sudo service postgresql start*
 
 3. **Installeer de vereiste packages:**
