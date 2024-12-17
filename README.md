@@ -17,12 +17,12 @@ Muziekmatch is een webapplicatie die muziekliefhebbers met elkaar verbindt door 
 
 ### Instructies voor Installatie
 1. **Zorg ervoor dat python3 en PostgreSQL zijn geïnstalleerd**. Voor PostgreSQL:
-    - On a Mac with homebrew simply run brew install postgresql. Just for reference: https://wiki.postgresql.org/wiki/Homebrew
-    - On WSL on Windows follow these instructions: https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-database#install-postgresql
+    - Mac: run `brew install postgresql`. Zie hier informatie: https://wiki.postgresql.org/wiki/Homebrew
+    - WSL of Window: volg de volgende instructies: https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-database#install-postgresql
 
 2. **Start de PostgreSQL-service:**
-    - On a Mac with homebrew run: `brew services start postgresql`
-    - On WSL on Windows run: `sudo service postgresql start`
+    - Mac: met homebrew run: `brew services start postgresql`
+    - WSL of Windows: run: `sudo service postgresql start`
 
 3. **Installeer de vereiste packages:**
 Run `python3 -m pip install -r requirements.txt`
