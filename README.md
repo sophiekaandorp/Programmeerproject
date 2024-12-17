@@ -3,7 +3,8 @@
 Sophie Kaandorp
 
 ### Screencast van de Webapplicatie
-<iframe src="https://drive.google.com/file/d/1zk1511V--9kYxBMl9p6w5vkTzcQjSwGv/preview" width="640" height="480"></iframe>
+[Screencast bekijken](https://drive.google.com/file/d/1zk1511V--9kYxBMl9p6w5vkTzcQjSwGv/preview)
+
 
 ### Visualisaties van de Webapplicatie
 ![Home](home.png)
