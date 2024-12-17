@@ -371,7 +371,7 @@ def website_instagram(profile_id):
     # als de gebruiker geen instagram account heeft ingevuld.
     if not profile or not profile.instagram:
         flash("Deze gebruiker heeft geen Instagram profiel opgegeven.")
-        return render_template("profile.html", profile=profile)
+        return render_template("profile.html", profile=profile, username=profile.user.username)
     
     # Als het profiel bestaat, gaan we naar het instagram account
     return redirect(f"http://www.instagram.com/{profile.instagram}/")
