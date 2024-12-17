@@ -2,7 +2,7 @@
 ## **Musicmatch**
 Sophie Kaandorp
 
-### Schermafbeeldingen
+### Visualisaties van de Webapplicatie
 ![Home](home.png)
 ![Rang](rang.png)
 ![Mijn Profiel](mijn_profiel.png)
@@ -17,25 +17,25 @@ Muziekmatch is een webapplicatie die muziekliefhebbers met elkaar verbindt door 
     - On WSL on Windows follow these instructions: https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-database#install-postgresql
 
 2. **Start de PostgreSQL-service:**
-    - On a Mac with homebrew run: ***brew services start postgresql***
-    - On WSL on Windows run: ***sudo service postgresql start***
+    - On a Mac with homebrew run: `brew services start postgresql`
+    - On WSL on Windows run: `sudo service postgresql start`
 
 3. **Installeer de vereiste packages:**
-Run ***python3 -m pip install -r requirements.txt***
+Run `python3 -m pip install -r requirements.txt`
 
-4. **Stel de database-URL in:** Run ***export DATABASE_URL="postgresql://postgres:jouw_wachtwoord@localhost/musicmatch"***
+4. **Stel de database-URL in:** Run `export DATABASE_URL="postgresql://postgres:jouw_wachtwoord@localhost/musicmatch"`
     - Vervang *jouw_wachtwoord* door je eigen PostgreSQL-wachtwoord.
 
 5. **Maak de database aan:** Zorg ervoor dat de database musicmatch bestaat. Voer de volgende commando in in de PostgreSQL-shell:
-***CREATE DATABASE musicmatch;***
+`CREATE DATABASE musicmatch;`
 
 6. **Run create.py:**
 Run 
-***python3 create.py***
+`python3 create.py`
 
 7. **Start de Flask-applicatie:**
 Run 
-***python3 -m flask run --debug***
+`python3 -m flask run --debug`
 
 8. **Ga naar de webiste: http://127.0.0.1:5000**
 
